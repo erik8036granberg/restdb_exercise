@@ -78,23 +78,3 @@ function britney() {
     }
     post(obj);
 }
-
-document.querySelector("button").addEventListener("click", () => {
-
-    const obj = {
-        Artist: "Madonna",
-        Title: "Fuck me",
-        Year: 1995
-    }
-    post(obj);
-})
-
-document.querySelector("button").addEventListener("click", () => {
-
-    const obj = {
-        Artist: "Madonna",
-        Title: "Fuck me",
-        Year: 1995
-    }
-    post(obj);
-})

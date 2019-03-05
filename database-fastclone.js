@@ -1,7 +1,8 @@
 "use strict";
 
-window.addEventListener("DOMContentLoaded", init);
+let newAlbum;
 
+window.addEventListener("DOMContentLoaded", init);
 
 function init() {
   console.log("init");
@@ -11,14 +12,14 @@ function init() {
 // sends a get request to the db
 function post(newAlbum) {
   fetch("https://musicdb-a19d.restdb.io/rest/albums", {
-      method: "post",
-      body: JSON.stringify(newAlbum),
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "x-apikey": "5c7cf047cac6621685acbaf3",
-        "cache-control": "no-cache"
-      }
-    })
+    method: "post",
+    body: JSON.stringify(newAlbum),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": "5c7cf047cac6621685acbaf3",
+      "cache-control": "no-cache"
+    }
+  })
     .then(res => res.json())
     .then(data => {
       showAlbum(data);
@@ -30,13 +31,13 @@ function get() {
   console.log("get");
   //   use database endpoint with security code to get posts
   fetch("https://musicdb-a19d.restdb.io/rest/albums", {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "x-apikey": "5c7cf047cac6621685acbaf3",
-        "cache-control": "no-cache"
-      }
-    })
+    method: "get",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": "5c7cf047cac6621685acbaf3",
+      "cache-control": "no-cache"
+    }
+  })
     //   format as jason
     .then(res => res.json())
     .then(data => {
@@ -49,17 +50,15 @@ function get() {
 // sends a delete request to the db
 function deleteAlbum(id) {
   fetch("https://musicdb-a19d.restdb.io/rest/albums/" + id, {
-      method: "delete",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "x-apikey": "5c7cf047cac6621685acbaf3",
-        "cache-control": "no-cache"
-      }
-    })
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": "5c7cf047cac6621685acbaf3",
+      "cache-control": "no-cache"
+    }
+  })
     .then(res => res.json())
-    .then(data => {
-
-    });
+    .then(data => {});
 }
 
 // loop to add posts to DOM - template -> clone -> append
@@ -71,22 +70,30 @@ function showAlbum(album) {
   clone.querySelector("[data-title]").textContent = album.Title;
   clone.querySelector("[data-year]").textContent = album.Year;
   clone.querySelector("[data-id]").dataset.id = album._id;
-  clone.querySelector("button").addEventListener("click", (e) => {
+  clone.querySelector("[data-delete]").addEventListener("click", e => {
     // mouseevnt on click
     console.log(e);
     // finds mouse target (button) and delete its parent element on click (article)
     e.target.parentElement.remove();
     deleteAlbum(album._id);
-  })
+  });
   document.querySelector("[data-container]").appendChild(clone);
 }
 
-document.querySelector("button").addEventListener("click", () => {
+document.querySelector("#newForm").addEventListener("submit", e => {
+  e.preventDefault();
+  console.log("submit");
+  let newArtist = document.querySelector("input[name=artist]").value;
+  let newTitle = document.querySelector("input[name=title]").value;
+  let newYear = document.querySelector("input[name=year]").value;
 
-  const obj = {
-    Artist: "Madonna",
-    Title: "I'm not a virgin",
-    Year: 1995
-  }
-  post(obj);
-})
+  newAlbum = {
+    Artist: newArtist,
+    Title: newTitle,
+    Year: newYear
+  };
+  post(newAlbum);
+  document.getElementById("newForm").reset();
+  alert(`${newArtist} - ${newTitle} - ${newYear}
+  has been added to the list`);
+});

@@ -1,25 +1,108 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database - restdb.io</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Database - restdb.io</title>
+
+  <style>
+    * {
+  box-sizing: border-box;
+}
+
+    body{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 2rem;
+}
+ article {
+   padding: 2rem;
+   margin: 0 0 1rem 0;
+   background-color: rgb(212, 211, 211);
+ }   
+
+p{
+  line-height: 0.5rem;
+}
+
+article h3 {
+  margin: 0;
+  padding: 0; 
+}
+
+
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  transition: 1s;
+}
+
+button:hover {
+  background-color: rgb(143, 143, 143);
+}
+
+
+#newForm {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: 2rem;
+  grid-gap: 1rem;
+}
+
+#newForm h2 {
+ grid-column: 1/3;
+ margin: 0 0 3rem;
+}
+
+
+#newForm button {
+  display: inline-block;
+  background-color: rgb(192, 190, 190);
+  grid-column: 2/2;
+  align-items: start;
+}
+
+#newForm button:hover {
+  background-color: rgb(121, 120, 120);
+}
+
+#newForm label {
+  grid-column: 1/1;
+}
+
+::placeholder {
+  opacity: 0.5;
+}
+  </style>
 </head>
 
 <body>
-    <main data-container></main>
+  <main data-container></main>
 
-    <template data-template>
-        <article data-id>
-            <h1 data-artist></h1>
-            <p data-title></p>
-            <p data-year></p>
-            <button>Delete me!</button>
-        </article>
-    </template>
+  <form id="newForm">
+    <h2>Add new Album</h2>
+    <label for=" artist">Artist</label>
+    <input type="text" name="artist" id="artist" placeholder="Madonna" required>
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" placeholder="Like a Virgin" required>
+    <label for="title">Year</label>
+    <input type="tel" name="year" id="year" pattern="[0-9]{4}" placeholder="1984" required>
+    <button type=submit>Submit</button>
+  </form>
 
-    <br><button>New album</button>
-    <script src="database-fastclone.js"></script>
+  <template data-template>
+    <article data-id>
+      <h3 data-artist></h3>
+      <p data-title></p>
+      <p data-year></p>
+      <button data-delete>Delete</button>
+    </article>
+  </template>
+
+  <script src="database-fastclone.js"></script>
 </body>
 
 </html>
