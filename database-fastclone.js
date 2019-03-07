@@ -22,6 +22,7 @@ function post(newAlbum) {
     })
     .then(res => res.json())
     .then(data => {
+      newForm.elements.submit.disabled = false;
       showAlbum(data);
     });
 }
@@ -41,9 +42,7 @@ function get() {
     //   format as jason
     .then(res => res.json())
     .then(data => {
-      // send to loop
-      data.forEach(showAlbum);
-      console.log(data);
+      sortAlbums(data);
     });
 }
 
@@ -59,6 +58,19 @@ function deleteAlbum(id) {
     })
     .then(res => res.json())
     .then(data => {});
+}
+
+function sortAlbums(data) {
+  console.log("sortAlbums");
+  console.log(data);
+  data.sort(function (a, z) {
+    if (a.new_id < z.new_id) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+  data.forEach(showAlbum);
 }
 
 // loop to add posts to DOM - template -> clone -> append
@@ -81,6 +93,7 @@ function showAlbum(album) {
 }
 
 document.querySelector("#newForm").addEventListener("submit", e => {
+  newForm.elements.submit.disabled = true;
   e.preventDefault();
   console.log("submit");
 
@@ -94,9 +107,9 @@ document.querySelector("#newForm").addEventListener("submit", e => {
     Year: newYear
   };
   post(newAlbum);
-  document.getElementById("newForm").reset();
-  alert(`${newArtist} - ${newTitle} - ${newYear}
-  has been added to the list`);
+  document.querySelector("#newForm").reset();
+  // alert(`${newArtist} - ${newTitle} - ${newYear}
+  // has been added to the list`);
 });
 
 // se what to do in js:
